@@ -1,0 +1,76 @@
+package com.books.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.books.entities.Books;
+import com.books.exceptions.BookNotFoundException;
+import com.books.exceptions.InvalidQuantityException;
+import com.books.repository.BooksRepository;
+
+@Service
+public class BookService {
+
+	@Autowired
+	private BooksRepository booksRepository;
+
+	public ResponseEntity<Books> addBooks(Books book) {
+		Books b = booksRepository.save(book);
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(b);
+	}
+
+	public Books getBookById(Integer bookId) {
+
+		return booksRepository.findById(bookId)
+				.orElseThrow(() -> new BookNotFoundException("No book found with id: " + bookId));
+	}
+
+	public List<Books> getAllBooks() {
+		List<Books> books = booksRepository.findAll();
+		if (books.isEmpty())
+			throw new BookNotFoundException();
+		else
+			return books;
+	}
+
+	public Books orderBook(Integer bookid, Integer qty) {
+		Books book = getBookById(bookid);
+
+		if (qty <= 0)
+			throw new InvalidQuantityException();
+
+		if (book.getBookQuantity() >= qty) {
+			book.setBookQuantity(book.getBookQuantity() - qty);
+			booksRepository.save(book);
+			return book;
+		} else
+			throw new InvalidQuantityException(
+					"the Available books are " + book.getBookQuantity() + " and ordered quantity is " + qty);
+
+	}
+
+	public ResponseEntity<Books> updateBooksQty(Integer bookid, Integer qty) {
+		if (qty < 0)
+			throw new InvalidQuantityException("the quantity of books cannot be less than zero");
+
+		Books b = getBookById(bookid);
+		b.setBookQuantity(qty);
+		booksRepository.save(b);
+		return ResponseEntity.status(HttpStatus.OK).body(b);
+	}
+
+	public ResponseEntity<String> removeBook(Integer bookId) {
+		{
+			Books book = getBookById(bookId);
+			booksRepository.deleteById(bookId);
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body("Book with ID: " + bookId + " is deleted");
+		}
+
+	}
+
+}

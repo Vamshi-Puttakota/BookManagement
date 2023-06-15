@@ -1,0 +1,5 @@
+package com.jwt.dto;
+
+public class AuthRequest {
+
+}

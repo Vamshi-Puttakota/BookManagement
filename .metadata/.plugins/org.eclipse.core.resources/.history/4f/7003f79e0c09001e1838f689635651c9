@@ -1,0 +1,21 @@
+package com.customers.dto;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
+public class UserCredential {
+
+	@Id
+	private String customerId;
+
+	private String password;
+}

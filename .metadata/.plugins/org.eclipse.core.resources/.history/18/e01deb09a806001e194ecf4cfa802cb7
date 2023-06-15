@@ -1,0 +1,41 @@
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    
+ 
+
+spring:
+  application:
+    name: BOOKSTOREGATEWAY
+    
+  cloud:
+   gateway:
+     routes:
+      - id: CUSTOMERSERVICE
+        uri: http://localhost:8083/        #re-directing microservice 
+        predicates:
+        - Path=/customer-service/** 
+        
+               
+      - id: BOOKSERVICE
+        uri: http://localhost:8081/
+        predicates:
+        - Path=//book-service/**
+        
+        
+      - id: CARTSERVICE
+        uri: http://localhost:8082/
+        predicates:
+        - Path=/cart-service/**
+        
+        
+      - id: ORDERSERVICE
+        uri: http://localhost:8084/
+        predicates:
+        - Path= /orders-service/**
+        

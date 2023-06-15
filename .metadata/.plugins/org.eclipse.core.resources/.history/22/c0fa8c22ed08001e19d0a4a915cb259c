@@ -1,0 +1,83 @@
+package com.customers.services;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.customers.dao.CustomerRepository;
+import com.customers.entities.Customers;
+import com.customers.entities.Login;
+import com.customers.exceptions.CustomerNotFoundException;
+import com.customers.exceptions.GlobalExceptionHandler;
+import com.customers.exceptions.UserExsistsException;
+import com.customers.external.JwtServiceExternal;
+
+@Service
+public class CustomerService {
+
+	@Autowired
+	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private JwtServiceExternal jwtServiceExternal;
+
+	public Customers getCustomerDetailsByPhone(@PathVariable String phn) {
+		return customerRepository.findById(phn)
+				.orElseThrow(() -> new CustomerNotFoundException("No customer found with the phn: " + phn));
+
+		// return customerRepository.findByCustomer_phone(phn);
+	}
+
+	public String addCustomers(Customers customer) {
+		
+		
+		try {
+
+			Customers cust =  customerRepository.findById(customer.getCustomerPhone()).get();
+			
+			if(cust!=null)
+				throw new UserExsistsException();
+			
+		}
+		catch(UserExsistsException ex)
+		{
+			return "User is already registered";
+		}
+		catch (Exception e) {
+			customerRepository.save(customer);
+			
+			Login login = new Login();
+			login.setCustomerPhone(customer.getCustomerPhone());
+			login.setPassword(customer.getCustomerPassword());
+			
+			jwtServiceExternal.addNewUser(login);
+			return customer.getCustomerName() + " is registered as a user";
+			 
+		}
+		
+		return "hiii";
+	}
+	
+	public ResponseEntity<String> loggingin(@RequestBody Login login)
+	{
+		String id = login.getCustomerPhone();
+		String password = login.getPassword();
+		
+		Customers c = getCustomerDetailsByPhone(id);
+		String acpassword = c.getCustomerPassword();
+		if(password.equals(acpassword))
+		{
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body("Login successfully ") ;
+		}
+		else
+			return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION).body("Wrong Password") ;
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.jwt.repository;
+
+public class UserCredentialRepository {
+
+}

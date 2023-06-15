@@ -1,0 +1,5 @@
+package com.customers.exceptions;
+
+public class InvalidCredentialsException {
+
+}

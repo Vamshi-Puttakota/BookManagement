@@ -1,0 +1,12 @@
+package com.orderzzz.external.entities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Cart {
+
+	private String customerId;
+	private Integer totalPrice;
+	private List<Items> items = new ArrayList<Items>();
+	 
+}

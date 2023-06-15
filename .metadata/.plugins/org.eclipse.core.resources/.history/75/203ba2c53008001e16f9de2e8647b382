@@ -1,0 +1,12 @@
+package com.orderzzz.external.entities;
+
+
+
+public class Items {
+
+	private Integer itemId;
+	private Integer bookId;
+	private Integer quantity;
+	private Integer bookPrice;
+	private Cart cart;
+}

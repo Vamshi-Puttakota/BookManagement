@@ -1,0 +1,5 @@
+package com.BookStoreGateway.filter;
+
+public class RouteValidator {
+
+}

@@ -1,0 +1,5 @@
+package com.BookStoreGateway.util;
+
+public class JwtUtil {
+
+}

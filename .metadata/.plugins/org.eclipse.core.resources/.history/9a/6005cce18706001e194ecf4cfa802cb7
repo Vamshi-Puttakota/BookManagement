@@ -1,0 +1,36 @@
+package com.orders.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.orders.entities.Orders;
+import com.orders.services.OrderServices;
+
+@RestController
+@RequestMapping("orders-service")
+public class OrdersController {
+
+	
+	@Autowired
+	OrderServices orderServices;
+	
+	public Orders getOrderById(Integer orderId)
+	{
+		return orderServices.getOrderById(orderId);
+	}
+	
+	
+	public List<Orders> getAllOrders()
+	{
+		return ordersRepository.findAll();
+	}
+	
+	public List<Orders >getOrdersByCustomerId(String customerId)
+	{
+		return ordersRepository.findByCustomerId(customerId);
+	}
+	
+}

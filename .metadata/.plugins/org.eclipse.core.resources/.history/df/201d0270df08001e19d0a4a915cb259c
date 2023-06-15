@@ -1,0 +1,44 @@
+
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    
+
+spring:  
+  cloud:
+   gateway:
+     routes:
+      - id: CUSTOMERSERVICE
+        uri: http://localhost:8083/
+        predicates:
+        - Path=/customer-service/** 
+        
+      - id: Jwt-SERVICE
+        uri: http://localhost:1111/
+        predicates:
+        - Path=/auth/**
+               
+      - id: BOOK-SERVICE
+        uri: http://localhost:8081/
+        predicates:
+        - Path=/book-service/**
+        
+        
+      - id: CARTSERVICE
+        uri: http://localhost:8082/
+        predicates:
+        - Path=/cart-service/**
+        
+        
+      - id: ORDERZZZSERVICE
+        uri: http://localhost:8111/
+        predicates:
+        - Path= /orderzzz-service/**
+        

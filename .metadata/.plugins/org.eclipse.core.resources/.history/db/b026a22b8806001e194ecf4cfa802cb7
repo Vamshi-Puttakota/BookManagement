@@ -1,0 +1,42 @@
+package com.orders.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.orders.entities.Orders;
+import com.orders.services.OrderServices;
+
+@RestController
+@RequestMapping("orders-service")
+public class OrdersController {
+
+	
+	@Autowired
+	OrderServices orderServices;
+	
+	
+	@GetMapping("/{orderId}")
+	public Orders getOrderById(@PathVariable  Integer orderId)
+	{
+		return orderServices.getOrderById(orderId);
+	}
+	
+	@GetMapping
+	public List<Orders> getAllOrders()
+	{
+		return orderServices.getAllOrders();
+	}
+	
+	
+	@GetMapping("/customerId/{customerId}")
+	public List<Orders >getOrdersByCustomerId(String customerId)
+	{
+		return orderServices.getOrdersByCustomerId(customerId);
+	}
+	
+}

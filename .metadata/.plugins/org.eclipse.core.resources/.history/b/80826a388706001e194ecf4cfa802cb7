@@ -1,0 +1,19 @@
+package com.orders.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.orders.entities.Orders;
+import com.orders.repository.OrdersRepository;
+
+@Service
+public class OrderServices {
+	
+	@Autowired
+	OrdersRepository ordersRepository;
+
+	public Orders getOrderById(Integer orderId)
+	{
+		ordersRepository.findById(orderId);
+	}
+}

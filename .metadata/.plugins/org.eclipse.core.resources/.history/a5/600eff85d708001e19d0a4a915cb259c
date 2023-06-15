@@ -1,0 +1,5 @@
+package com.jwt.servcie;
+
+public class AuthService {
+
+}

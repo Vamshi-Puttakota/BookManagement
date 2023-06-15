@@ -1,0 +1,41 @@
+package com.orderzzz.service;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.orderzzz.entities.OrderzzzItems;
+import com.orderzzz.entities.Orderzzz;
+
+import com.orderzzz.repository.OrderzzzRepository;
+
+@Service
+public class OrderzzzService {
+
+	
+	@Autowired
+	private OrderzzzRepository orderzzzRepository;
+	
+	
+	public Orderzzz addCart(Orderzzz orderzzz)
+	{		 
+			return orderzzzRepository.save(orderzzz);
+	}
+	
+	
+	public Orderzzz getCartById(String cid)
+	{
+		return orderzzzRepository.findByCustomerId(cid);
+	}
+	
+	
+	public List<Orderzzz> getAllCart()
+	{
+		return orderzzzRepository.findAll();
+	}
+	
+	
+}

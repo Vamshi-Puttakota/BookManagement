@@ -1,0 +1,55 @@
+package com.orderzzz.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.orderzzz.entities.Orderzzz;
+import com.orderzzz.service.CartService;
+import com.orderzzz.service.OrderzzzService;
+
+@RestController
+@RequestMapping("/orderzzz-service")
+public class CartController {
+
+	@Autowired
+	private OrderzzzService orderzzzService;
+	
+	@PostMapping
+	public String addCart(@RequestBody Orderzzz orderzzz)
+	{
+		orderzzzService.addOrderzzz(orderzzz);
+		return "Read Data";
+	}
+	
+	@GetMapping("/{cid}")
+	public Orderzzz getCartById(@PathVariable String cid)
+	{
+		return cartService.getCartById(cid);
+	}
+	
+	@GetMapping
+	public List<Orderzzz> getAllCart()
+	{
+		return cartService.getAllCart();
+	}
+	
+	@GetMapping("/delete/{customerId}/{bookId}")
+	public Orderzzz deleteBook(@PathVariable String customerId,@PathVariable Integer bookId)
+	{
+		return cartService.deleteBook(customerId, bookId);
+	}
+	
+	@GetMapping("/delete-cart/{customerId}")
+	public String deleteCart(@PathVariable String customerId)
+	{
+		return cartService.deleteCart(customerId);
+	}
+
+}

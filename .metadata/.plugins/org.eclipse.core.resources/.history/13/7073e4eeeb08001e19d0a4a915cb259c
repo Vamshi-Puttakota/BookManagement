@@ -1,0 +1,8 @@
+package com.customers.external;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient(name = "JWT-SERVICE" ,url = "http://localhost:1111/auth")
+public interface JwtServiceExternal {
+
+}

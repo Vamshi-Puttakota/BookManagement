@@ -1,0 +1,15 @@
+package com.cart.external;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.orderzzz.entities.Book;
+
+@FeignClient(name = "BOOKSERVICE", url = "http://localhost:8081/")
+public interface BookServiceExternal {
+	
+	@GetMapping("/book-service/{bookId}")
+	Book getBook(@PathVariable Integer bookId);
+
+}

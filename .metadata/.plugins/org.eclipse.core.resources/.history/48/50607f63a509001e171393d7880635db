@@ -1,0 +1,5 @@
+package com.customers.external;
+
+public class JwtClient {
+
+}
